@@ -15,7 +15,7 @@ class SFTPClientAdvance(paramiko.SFTPClient):
             return sorted(file_list, key=lambda x: x.st_mtime, reverse=True)
         else:
             return file_list
-    def listdir(self, path=".", soted_date=True)
+    def listdir(self, path=".", sorted_date=True)
         return [f.filename for f in self.listdir_attr(path, sorted_date)]
 
     def get_last_file(self, path="."):
