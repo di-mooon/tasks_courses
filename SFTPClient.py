@@ -15,13 +15,13 @@ class SFTPClientAdvance(paramiko.SFTPClient):
             return sorted(file_list, key=lambda x: x.st_mtime, reverse=True)
         else:
             return file_list
+    def listdir(self, path=".", soted_date=True)
+        return [f.filename for f in self.listdir_attr(path, sorted_date)]
 
     def get_last_file(self, path="."):
         return self.listdir_attr(path, sorted_date=True)[0].filename
 
     def _adjust_cwd(self, path):
-        # sftp может потребоваться не только на linux но и на windows, и ваш код не будет корректно работать
-        # можно сделать более универсально и просто) не завязываясь на тип ОС
         if not isinstance(path, str):
             return super()._adjust_cwd(path.as_posix())
         else:
