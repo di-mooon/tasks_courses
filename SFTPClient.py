@@ -21,17 +21,18 @@ class SFTPClientAdvance(paramiko.SFTPClient):
 
     def _adjust_cwd(self, path):
         if not isinstance(path, str):
-            return super()._adjust_cwd(path.resolve().as_posix())
+            return super()._adjust_cwd(path.as_posix())
         else:
             return super()._adjust_cwd(path)
 
 
 
-p = Path('dive_prod2/email_admin')
+p = Path('dive_prod2')
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 client.connect(hostname=host, username=user, password=password)
 ftp = SFTPClientAdvance.from_transport(client.get_transport())
-a = ftp.listdir_attr(p)
+a = ftp.listdir(p)
+print(a)
 
 
