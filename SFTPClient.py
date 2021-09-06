@@ -15,26 +15,22 @@ class SFTPClientAdvance(paramiko.SFTPClient):
             return sorted(file_list, key=lambda x: x.st_mtime, reverse=True)
         else:
             return file_list
-    def listdir(self, path=".", sorted_date=True)
+
+    def listdir(self, path=".", sorted_date=True):
         return [f.filename for f in self.listdir_attr(path, sorted_date)]
 
     def get_last_file(self, path="."):
         return self.listdir_attr(path, sorted_date=True)[0].filename
 
     def _adjust_cwd(self, path):
-        if not isinstance(path, str):
-            return super()._adjust_cwd(path.as_posix())
-        else:
-            return super()._adjust_cwd(path)
+        return super()._adjust_cwd(str(path))
 
 
 
-p = Path('dive_prod2')
+p = Path('dive_prod2/email_admin')
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-client.connect(hostname=host, username=user, password=password)
+client.connect(hostname=host, username=user, password=password, look_for_keys=False, allow_agent=False)
 ftp = SFTPClientAdvance.from_transport(client.get_transport())
 a = ftp.listdir(p)
 print(a)
-
-
